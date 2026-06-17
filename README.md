@@ -24,11 +24,9 @@
 
 ## <a name="introduction">✨ Introduction</a>
 
-This application is a full-featured React Native language-learning platform that leverages a sophisticated AI teacher for real-time voice interaction. Rather than just another "toy" demo, it serves as a masterclass in Practical Vibe Coding, a structured workflow using tools like Expo, Clerk, and Stream to build production-ready apps without writing manual code. It transforms the "app you never built" into a shipped reality by bridging the gap between raw AI prompting and professional software architecture.
+This application is a full-featured React Native language-learning platform that leverages a sophisticated AI teacher for real-time voice interaction. A structured workflow with professional software architecture.
 
 If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
-
-<a href="https://discord.com/invite/n6EdbFJ" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/618f4872-1e10-42da-8213-1d69e486d02e" /></a>
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
