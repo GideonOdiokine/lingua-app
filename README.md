@@ -24,7 +24,7 @@
 
 ## <a name="introduction">✨ Introduction</a>
 
-This application is a full-featured React Native language-learning platform that leverages a sophisticated AI teacher for real-time voice interaction. A structured workflow with professional software architecture.
+This application is a full-featured React Native language-learning platform that leverages a sophisticated AI teacher for real-time voice interaction. Structured project with professional software architecture.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
