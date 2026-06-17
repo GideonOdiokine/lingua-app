@@ -63,7 +63,7 @@ export default function OnboardingScreen() {
               className={`${bubbleBaseClassName} right-[6px] top-[16px] rotate-[9deg] bg-[#F6F3FF]`}
             >
               <Text className="font-poppins-medium text-[18px] leading-[26px] tracking-[-0.7px] text-[#4C36FF]">
-                iHola!
+                ¡Hola!
               </Text>
             </View>
 
@@ -84,7 +84,11 @@ export default function OnboardingScreen() {
 
           <View className="mt-auto pt-3">
             <Link href="/" asChild>
-              <Pressable>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Get Started"
+                accessibilityHint="Begin using the app"
+              >
                 <View className="flex-row items-center justify-center rounded-[24px] bg-brand-deep-purple px-3 py-2">
                   <Text className="font-poppins-semibold text-[18px] leading-[24px] tracking-[-0.2px] text-white">
                     Get Started
