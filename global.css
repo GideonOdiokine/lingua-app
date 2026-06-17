@@ -3,3 +3,86 @@
 @import "tailwindcss/utilities.css";
 
 @import "nativewind/theme";
+
+@theme {
+  --color-brand-purple: #6c4ef5;
+  --color-brand-deep-purple: #5b3bf6;
+  --color-brand-blue: #4d8bff;
+  --color-brand-green: #21c16b;
+
+  --color-semantic-success: #21c16b;
+  --color-semantic-warning: #ffc800;
+  --color-semantic-streak: #ff8a00;
+  --color-semantic-error: #ff4d4f;
+  --color-semantic-info: #4d8bff;
+
+  --color-text-primary: #0d132b;
+  --color-text-secondary: #6b7280;
+  --color-border-soft: #e5e7eb;
+  --color-surface-soft: #f6f7fb;
+  --color-background-base: #ffffff;
+
+  --font-sans: "Poppins-Regular";
+  --font-poppins-regular: "Poppins-Regular";
+  --font-poppins-medium: "Poppins-Medium";
+  --font-poppins-semibold: "Poppins-SemiBold";
+  --font-poppins-bold: "Poppins-Bold";
+
+  --text-h1: 32px;
+  --text-h1--line-height: 38.4px;
+  --text-h2: 24px;
+  --text-h2--line-height: 31.2px;
+  --text-h3: 20px;
+  --text-h3--line-height: 26px;
+  --text-h4: 16px;
+  --text-h4--line-height: 22.4px;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 25.6px;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 22.4px;
+  --text-body-sm: 13px;
+  --text-body-sm--line-height: 20.8px;
+  --text-caption: 11px;
+  --text-caption--line-height: 15.4px;
+
+  --radius-panel: 26px;
+  --radius-swatch: 14px;
+
+  --shadow-panel: 0px 12px 28px rgba(13, 19, 43, 0.06);
+}
+
+@utility ds-panel {
+  @apply rounded-panel border border-border-soft bg-background-base shadow-panel;
+}
+
+@utility ds-panel-padding {
+  @apply px-5 py-5;
+}
+
+@utility ds-section-title {
+  @apply font-poppins-bold text-[18px] uppercase tracking-[0.3px] text-brand-deep-purple;
+}
+
+@utility ds-divider {
+  @apply mt-2 h-px w-full bg-border-soft;
+}
+
+@utility ds-token-label {
+  @apply mt-3 font-poppins-medium text-[12px] uppercase leading-[16px] text-text-secondary;
+}
+
+@utility ds-token-value {
+  @apply mt-1 font-poppins-regular text-body-sm text-text-secondary;
+}
+
+@utility ds-swatch {
+  @apply h-[82px] w-[82px] rounded-swatch;
+}
+
+@utility ds-typo-meta {
+  @apply font-poppins-regular text-body-sm text-text-secondary;
+}
+
+@utility ds-card-surface {
+  @apply rounded-[22px] bg-surface-soft;
+}
