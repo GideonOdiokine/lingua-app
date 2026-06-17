@@ -26,8 +26,6 @@
 
 This application is a full-featured React Native language-learning platform that leverages a sophisticated AI teacher for real-time voice interaction. A structured workflow with professional software architecture.
 
-If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
-
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
 - **[React Native](https://reactnative.dev/)** is an open-source framework for building native mobile applications using React. It allows developers to use a single codebase for both iOS and Android by rendering with native UI components for high performance.
