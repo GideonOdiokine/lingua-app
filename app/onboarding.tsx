@@ -83,7 +83,7 @@ export default function OnboardingScreen() {
           </View>
 
           <View className="mt-auto pt-3">
-            <Link href="/" asChild>
+            <Link href="/sign-up" asChild>
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="Get Started"
