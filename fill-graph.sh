@@ -1,7 +1,7 @@
 #!/bin/bash
 
-START_DATE="2026-05-03"
-END_DATE="2026-06-16"
+START_DATE="2026-06-21"
+END_DATE="2026-07-01"
 
 CURRENT_DATE="$START_DATE"
 
@@ -28,7 +28,7 @@ do
     break
   fi
 
-  CURRENT_DATE=$(date -j -v+1d -f "%Y-%m-%d" "$CURRENT_DATE" "+%Y-%m-%d")
+    CURRENT_DATE=$(date -j -v+1d -f "%Y-%m-%d" "$CURRENT_DATE" "+%Y-%m-%d")
 done
 
 git push origin main

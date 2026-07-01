@@ -1,5 +1,6 @@
+import { useAuth } from "@/lib/clerk";
 import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { Link, Redirect } from "expo-router";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -10,6 +11,16 @@ const bubbleBaseClassName =
   "absolute items-center justify-center rounded-[22px] px-5 py-3";
 
 export default function OnboardingScreen() {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isSignedIn) {
+    return <Redirect href="/" />;
+  }
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: colors.neutral.background }}
@@ -99,6 +110,19 @@ export default function OnboardingScreen() {
                 </View>
               </Pressable>
             </Link>
+
+            <View className="mt-5 flex-row items-center justify-center">
+              <Text className="font-poppins-regular text-[15px] leading-[22px] text-[#67708C]">
+                Already have an account?{" "}
+              </Text>
+              <Link href="/sign-in" asChild>
+                <Pressable accessibilityRole="button">
+                  <Text className="font-poppins-semibold text-[15px] leading-[22px] text-brand-deep-purple">
+                    Sign in
+                  </Text>
+                </Pressable>
+              </Link>
+            </View>
           </View>
         </View>
       </ScrollView>
