@@ -1,59 +1,72 @@
-import { ComponentType, ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
+import { Platform } from "react-native";
 
-let actualClerk: {
-  ClerkProvider?: ComponentType<{
-    publishableKey: string;
-    tokenCache?: unknown;
+type ClerkModule = typeof import("@clerk/expo");
+
+let clerkModule: ClerkModule | null = null;
+let clerkLoadError: Error | null = null;
+let tokenCache: typeof import("@clerk/expo/token-cache").tokenCache | undefined;
+
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
+  clerkModule = require("@clerk/expo") as ClerkModule;
+} catch (error) {
+  clerkLoadError =
+    error instanceof Error
+      ? error
+      : new Error("Clerk failed to load in the current runtime.");
+}
+
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
+  tokenCache = require("@clerk/expo/token-cache").tokenCache as typeof tokenCache;
+} catch {}
+
+function FallbackProvider({ children }: { children: ReactNode }) {
+  return children ?? null;
+}
+
+export const ClerkProvider =
+  (clerkModule?.ClerkProvider as ComponentType<{
     children: ReactNode;
-  }>;
-  useAuth?: () => {
-    isLoaded: boolean;
-    isSignedIn: boolean;
-    userId?: string;
-    user?: any;
-  };
-  useClerk?: () => { signOut: () => Promise<void> };
-  useUser?: () => { user?: any };
-  useSignIn?: () => { signIn: any; errors?: any; fetchStatus: string };
-  useSignUp?: () => { signUp: any; errors?: any; fetchStatus: string };
-  useSSO?: () => { startSSOFlow: (options: any) => Promise<any> };
-} | null = null;
-let actualTokenCache: unknown = undefined;
+    publishableKey: string;
+    tokenCache?: typeof tokenCache;
+  }>) ?? FallbackProvider;
 
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-  actualClerk = require("@clerk/expo");
-} catch {}
+export { tokenCache };
 
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-  actualTokenCache = require("@clerk/expo/token-cache").tokenCache;
-} catch {}
+export const isClerkAvailable = clerkModule !== null;
 
-const FallbackProvider: ComponentType<{ children: ReactNode }> = ({
-  children,
-}) => (typeof children === "undefined" ? null : (children as any));
+export function getClerkUnavailableReason() {
+  if (clerkModule) {
+    return null;
+  }
 
-export const isClerkAvailable = actualClerk !== null;
-export const ClerkProvider = actualClerk?.ClerkProvider ?? FallbackProvider;
-export const tokenCache = actualTokenCache;
+  if (Platform.OS === "android" || Platform.OS === "ios") {
+    return (
+      clerkLoadError?.message ??
+      "Clerk native support is unavailable in the current app binary."
+    );
+  }
+
+  return clerkLoadError?.message ?? "Clerk is unavailable in the current runtime.";
+}
 
 export function useAuth() {
-  if (actualClerk?.useAuth) {
-    return actualClerk.useAuth();
+  if (clerkModule?.useAuth) {
+    return clerkModule.useAuth();
   }
 
   return {
     isLoaded: true,
     isSignedIn: false,
     userId: undefined,
-    user: undefined,
   };
 }
 
 export function useClerk() {
-  if (actualClerk?.useClerk) {
-    return actualClerk.useClerk();
+  if (clerkModule?.useClerk) {
+    return clerkModule.useClerk();
   }
 
   return {
@@ -61,43 +74,33 @@ export function useClerk() {
   };
 }
 
-export function useUser() {
-  if (actualClerk?.useUser) {
-    return actualClerk.useUser();
-  }
-
-  return {
-    user: undefined,
-  };
-}
-
 export function useSignIn() {
-  if (actualClerk?.useSignIn) {
-    return actualClerk.useSignIn();
+  if (clerkModule?.useSignIn) {
+    return clerkModule.useSignIn();
   }
 
   return {
     signIn: null,
     errors: null,
-    fetchStatus: "idle",
+    fetchStatus: "idle" as const,
   };
 }
 
 export function useSignUp() {
-  if (actualClerk?.useSignUp) {
-    return actualClerk.useSignUp();
+  if (clerkModule?.useSignUp) {
+    return clerkModule.useSignUp();
   }
 
   return {
     signUp: null,
     errors: null,
-    fetchStatus: "idle",
+    fetchStatus: "idle" as const,
   };
 }
 
 export function useSSO() {
-  if (actualClerk?.useSSO) {
-    return actualClerk.useSSO();
+  if (clerkModule?.useSSO) {
+    return clerkModule.useSSO();
   }
 
   return {
@@ -107,5 +110,15 @@ export function useSSO() {
       signIn: undefined,
       signUp: undefined,
     }),
+  };
+}
+
+export function useUser() {
+  if (clerkModule?.useUser) {
+    return clerkModule.useUser();
+  }
+
+  return {
+    user: null,
   };
 }

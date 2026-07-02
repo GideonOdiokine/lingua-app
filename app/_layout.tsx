@@ -7,16 +7,15 @@ import { Platform, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
 
-import { ClerkProvider, isClerkAvailable, tokenCache } from "@/lib/clerk";
+import {
+  ClerkProvider,
+  tokenCache,
+} from "@/lib/clerk";
 import { colors, fontAssets } from "@/theme";
 
 void SplashScreen.preventAutoHideAsync();
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "";
-
-if (!publishableKey) {
-  throw new Error("Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file.");
-}
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts(fontAssets);
@@ -35,7 +34,7 @@ export default function RootLayout() {
     return null;
   }
 
-  if (!isClerkAvailable && Platform.OS !== "web") {
+  if (!publishableKey) {
     return (
       <View
         style={{
@@ -54,28 +53,17 @@ export default function RootLayout() {
             marginBottom: 16,
           }}
         >
-          Unsupported in Expo Go
-        </Text>
-        <Text style={{ color: colors.neutral.textPrimary, fontSize: 16 }}>
-          Clerk requires native support not available in Expo Go.
+          Clerk configuration missing
         </Text>
         <Text
           style={{
             color: colors.neutral.textPrimary,
-            fontSize: 15,
-            marginTop: 16,
+            fontSize: 16,
+            textAlign: "center",
           }}
         >
-          Run the app with a custom native build:
-        </Text>
-        <Text
-          style={{
-            color: colors.neutral.textSecondary,
-            fontSize: 14,
-            marginTop: 8,
-          }}
-        >
-          npx expo run:android
+          Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your environment before using
+          authentication.
         </Text>
       </View>
     );

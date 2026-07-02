@@ -1,4 +1,10 @@
-import { useSignIn, useSignUp, useSSO } from "@/lib/clerk";
+import {
+  getClerkUnavailableReason,
+  isClerkAvailable,
+  useSignIn,
+  useSignUp,
+  useSSO,
+} from "@/lib/clerk";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Linking from "expo-linking";
@@ -50,6 +56,20 @@ function getRawErrorMessage(rawError: unknown) {
   const error = rawError as { longMessage?: string; message?: string };
 
   return error.longMessage ?? error.message ?? null;
+}
+
+function getUnavailableRuntimeMessage() {
+  if (Platform.OS === "android") {
+    return (
+      getClerkUnavailableReason() ??
+      "Android authentication needs a fresh development build with Clerk included."
+    );
+  }
+
+  return (
+    getClerkUnavailableReason() ??
+    "Authentication is unavailable in the current runtime."
+  );
 }
 
 export function AuthScreen({ mode }: AuthScreenProps) {
@@ -127,6 +147,11 @@ export function AuthScreen({ mode }: AuthScreenProps) {
     setLocalError(null);
     setHelperMessage(null);
 
+    if (!isClerkAvailable) {
+      setLocalError(getUnavailableRuntimeMessage());
+      return;
+    }
+
     if (!normalizedEmail || !password) {
       setLocalError("Enter your email and password to continue.");
       return;
@@ -193,6 +218,12 @@ export function AuthScreen({ mode }: AuthScreenProps) {
   const handleGoogleAuth = async () => {
     setLocalError(null);
     setHelperMessage(null);
+
+    if (!isClerkAvailable) {
+      setLocalError(getUnavailableRuntimeMessage());
+      return;
+    }
+
     setActiveSocialProvider("google");
 
     try {
