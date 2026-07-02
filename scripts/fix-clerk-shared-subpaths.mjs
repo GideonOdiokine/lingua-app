@@ -112,8 +112,49 @@ async function fixSharedPackage(sharedPackagePath) {
   await Promise.all(sharedSubpaths.map((subpath) => createShim(sharedRoot, subpath)));
 }
 
+async function patchClerkExpoAndroidModule() {
+  const filesToPatch = [
+    path.join(
+      projectRoot,
+      "node_modules/@clerk/expo/dist/specs/NativeClerkModule.android.js",
+    ),
+    path.join(
+      projectRoot,
+      "node_modules/@clerk/expo/src/specs/NativeClerkModule.android.ts",
+    ),
+  ];
+
+  await Promise.all(
+    filesToPatch.map(async (targetPath) => {
+      if (!(await pathExists(targetPath))) {
+        return;
+      }
+
+      const originalContents = await readFile(targetPath, "utf8");
+
+      if (originalContents.includes("requireOptionalNativeModule")) {
+        return;
+      }
+
+      const patchedContents = originalContents.replace(
+        "requireNativeModule",
+        "requireOptionalNativeModule",
+      );
+
+      if (patchedContents === originalContents) {
+        return;
+      }
+
+      await writeFile(targetPath, patchedContents, "utf8");
+    }),
+  );
+}
+
 async function main() {
-  await Promise.all(sharedPackagePaths.map((packagePath) => fixSharedPackage(packagePath)));
+  await Promise.all([
+    ...sharedPackagePaths.map((packagePath) => fixSharedPackage(packagePath)),
+    patchClerkExpoAndroidModule(),
+  ]);
 }
 
 await main();
