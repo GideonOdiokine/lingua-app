@@ -1,4 +1,5 @@
 import { useClerk, useUser } from "@/lib/clerk";
+import { Link } from "expo-router";
 import { Image } from "expo-image";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -44,6 +45,17 @@ export default function HomeScreen() {
             onboarding, and your first protected screens.
           </Text>
         </View>
+
+        <Link href="/language-selection" asChild>
+          <Pressable
+            accessibilityRole="button"
+            className="mt-8 rounded-[20px] border border-[#E8EBF4] bg-white px-6 py-4"
+          >
+            <Text className="text-center font-poppins-semibold text-[17px] leading-[24px] text-[#0D132B]">
+              Open language selection
+            </Text>
+          </Pressable>
+        </Link>
 
         <Pressable
           accessibilityRole="button"

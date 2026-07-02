@@ -86,3 +86,19 @@
 @utility ds-card-surface {
   @apply rounded-[22px] bg-surface-soft;
 }
+
+@utility language-select-search {
+  @apply h-[68px] flex-row items-center rounded-[26px] border border-[#E9EAF2] bg-[#FAFBFF] px-5;
+}
+
+@utility language-select-card {
+  @apply flex-row items-center rounded-[24px] border border-[#EEF0F6] bg-white px-4 py-4;
+}
+
+@utility language-select-card-active {
+  @apply border-[2px] border-brand-purple bg-[#FBFAFF];
+}
+
+@utility language-select-confirm {
+  @apply h-[72px] flex-row items-center justify-center rounded-[24px] border border-[#E9EAF2] bg-white px-6;
+}
